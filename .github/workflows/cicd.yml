@@ -3,10 +3,10 @@ name: React App CI/CD
 on:
   push:
     branches:
-      - master # Run workflow on pushes to the 'main' branch
+      - main # Run workflow on pushes to the 'main' branch (adjust based on your default branch name)
   pull_request:
     branches:
-      - master # Run workflow on pull requests to 'main'
+      - main # Run workflow on pull requests to 'main'
 
 jobs:
   build-and-test:
@@ -37,12 +37,12 @@ jobs:
         run: npm install cypress --save-dev # Install Cypress
 
       - name: Start the React app
-        run: npm start &
+        run: npm start & # Run the React app in the background
         env:
           CI: true # Ensures Create React App doesn't block Cypress
 
       - name: Wait for React app to be ready
-        run: npx wait-on http://localhost:3001 # Wait for the app to be available
+        run: npx wait-on http://localhost:3001 --timeout 30000 # Wait up to 30 seconds for the app
 
       - name: Run Cypress tests
         run: npx cypress run # Execute Cypress tests
