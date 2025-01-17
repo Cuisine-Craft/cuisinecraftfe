@@ -30,6 +30,7 @@ jobs:
         run: npm run build
         env:
           CI: true
+          PUBLIC_URL: '/'
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
@@ -37,26 +38,32 @@ jobs:
           name: build
           path: build/
 
-      - name: Install Cypress
-        run: npm install cypress --save-dev
-
-      - name: Install development server
-        run: npm install -D serve
+      - name: Install Cypress and serve
+        run: |
+          npm install cypress --save-dev
+          npm install -D serve
 
       - name: Serve build and run Cypress tests
         run: |
-          npx serve build -l 3001 &
-          wait-on http://localhost:3001
-          npx cypress run
+          npx serve build -s -l 3001 &
+          wait-on -t 30000 http://localhost:3001
+          npx cypress run --config video=true
         env:
           CI: true
           CYPRESS_BASE_URL: 'http://localhost:3001'
           NODE_ENV: test
 
+      - name: Upload Cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-test
-    if: github.ref == 'refs/heads/master' # Only deploy on master branch
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Checkout repository
