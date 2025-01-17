@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cuisine-craft-frontend
+  labels:
+    app: cuisine-craft-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cuisine-craft-frontend
+  template:
+    metadata:
+      labels:
+        app: cuisine-craft-frontend
+    spec:
+      containers:
+        - name: cuisine-craft-frontend
+          image: gcr.io/cuisinecraft/cuisine-craft-frontend:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: INGREDIENT_SERVICE_URL
+              value: "http://ingredient-service:8081"
+            - name: PRICELOOKUP_SERVICE_URL
+              value: "http://pricelookup-service:5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: cuisine-craft-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

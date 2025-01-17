@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
@@ -57,6 +57,9 @@ const Login = () => {
                 </label>
                 <button type="submit" className="login-button">Login</button>
             </form>
+            <p className="privacy-policy-link">
+                By logging in, you agree to our <Link to="/privacy-policy">Privacy Policy</Link>.
+            </p>
         </div>
     );
 };
