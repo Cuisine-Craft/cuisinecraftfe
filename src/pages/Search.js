@@ -6,14 +6,13 @@ const SearchPage = () => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
-    const ingredientServiceUrl = process.env.INGREDIENT_SERVICE_URL;
     
     const handleSearch = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const response = await axios.get("${ingredientServiceUrl}/ingredients/search", {
+            const response = await axios.get("http://localhost:8081/ingredients/search", {
                 params: { query, size: 1, page: 0 },
             });
 
