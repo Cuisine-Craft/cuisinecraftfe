@@ -3,10 +3,10 @@ name: React App CI/CD
 on:
   push:
     branches:
-      - main # Run workflow on pushes to the 'main' branch (adjust based on your default branch name)
+      - master # Run workflow on pushes to the 'main' branch (adjust based on your default branch name)
   pull_request:
     branches:
-      - main # Run workflow on pull requests to 'main'
+      - master # Run workflow on pull requests to 'main'
 
 jobs:
   build-and-test:
