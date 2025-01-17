@@ -41,8 +41,8 @@ jobs:
         env:
           CI: true # Ensures Create React App doesn't block Cypress
 
-      - name: Wait for React app to be ready
-        run: npx wait-on http://localhost:3001 --timeout 30000 # Wait up to 30 seconds for the app
+      # - name: Wait for React app to be ready
+      #   run: npx wait-on http://localhost:3001 --timeout 30000 # Wait up to 30 seconds for the app
 
       - name: Run Cypress tests
         run: npx cypress run # Execute Cypress tests
